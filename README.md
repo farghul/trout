@@ -1,14 +1,23 @@
 # Trout
 
-Trout is a WordPress plugin **release to production** tool. Named after a fish that often gets *released*.
+Trout is a WordPress plugin **release to production** tool. It operates in the same fashion as [Bowerbird](https://github.com/farghul/bowerbird.git), but with a focus on creating a WordPress production release via interaction with a Jira API. Trout is named after a popular catch and *release* fish.
 
 ![Trout](trout.webp)
 
 ## Prerequisites
 
-Login information to download the update package. -- ***premium content only*** --
-
 Googles' [Go language](https://go.dev) installed to enable building executables from source code.
+
+A `secrets/jira.json` file containing your API URL and Basic token to enable ticket creation:
+
+``` go
+{
+    "base": "Jira Issue base URL",
+    "path": "Path to the Trout application",
+    "search": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
+    "token": "Email:Jira API Token combination with Base 64 Encoding"
+}
+```
 
 ## Build
 
@@ -31,18 +40,14 @@ GOOS=linux GOARCH=amd64 go build -o [name] .
 Ensure the folder containing your ***composer.json*** file is predefined as variable and run:
 
 ``` console
-[program] [flag] [vendor/plugin]:[version] [ticket#]
+[program] [flag] [release name or number]
 ```
 
 ## Example
 
-### Release (In-house Production ready content):
-
 ``` console
-trout -r bcgov-plugin/bcgov-inline-comments:1.9.0 820
+trout -r 88
 ```
-
-Flags `-r` can accept multiple paired arguments, chain together as many as you like!
 
 ## License
 
