@@ -8,12 +8,12 @@ func packagist() {
 	push()
 }
 
-// Run the appropriate composer require command based on the flag value
-func require() {
-	if edge() {
-		execute("-e", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "-W", "--no-install")
+// Create a release branch if necessary
+func checkout() {
+	if exists(branch, release) {
+		execute("-e", "git", "switch", branch+release)
 	} else {
-		execute("-e", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "--no-install")
+		execute("-e", "git", "checkout", "-b", branch+release)
 	}
 }
 
@@ -28,12 +28,12 @@ func sift(box []string) {
 	}
 }
 
-// Create a release branch if necessary
-func checkout() {
-	if exists(relbranch, release) {
-		execute("-e", "git", "switch", relbranch+release)
+// Run the appropriate composer require command based on the flag value
+func require() {
+	if edge() {
+		execute("-e", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "-W", "--no-install")
 	} else {
-		execute("-e", "git", "checkout", "-b", relbranch+release)
+		execute("-e", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "--no-install")
 	}
 }
 
@@ -45,5 +45,5 @@ func commit() {
 
 // Push modified content to the git repository
 func push() {
-	execute("-e", "git", "push", "--set-upstream", "origin", relbranch+release)
+	execute("-e", "git", "push", "--set-upstream", "origin", branch+release)
 }

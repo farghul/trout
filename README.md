@@ -8,10 +8,11 @@ Trout is a WordPress plugin **"release to production"** tool. It operates in the
 
 Googles' [Go language](https://go.dev) installed to enable building executables from source code.
 
-A `secrets/jira.json` file containing your API URL and Basic token to enable ticket creation:
+A `jira.json` file containing your API URL and Basic token to enable ticket creation:
 
 ``` go
 {
+    "repo": "Path to Git Repository",
     "base": "Jira Issue base URL",
     "path": "Path to the Trout application",
     "search": "JQL Jira API search string to return a list of tickets with status 'In Progress'",

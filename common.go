@@ -11,14 +11,11 @@ import (
 	"time"
 )
 
-var (
-	route   = os.Args
-	hmdr, _ = os.UserHomeDir()
-)
+var route = os.Args
 
 // Read json data and convert to struct
 func driver() {
-	data, err := os.ReadFile("secrets/jira.json")
+	data, err := os.ReadFile("jira.json")
 	inspect(err)
 	json.Unmarshal(data, &access)
 
@@ -56,7 +53,7 @@ func watchman(value string) time.Duration {
 
 // Confirm the current working directory is correct
 func changedir() {
-	os.Chdir(hmdr + bitbucket + "blog_gov_bc_ca")
+	os.Chdir(access.Repo)
 	var filePath string = "composer-prod.json"
 
 	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
