@@ -21,11 +21,10 @@ var (
 
 // Atlassian builds a list of jira tokens and api addresses
 type Atlassian struct {
-	Repo   string `json:"repo"`
-	Base   string `json:"base"`
-	Path   string `json:"path"`
-	Token  string `json:"token"`
-	Search string `json:"search"`
+	Repo    string `json:"repo"`
+	Cloud   string `json:"cloud"`
+	Token   string `json:"token"`
+	Testing string `json:"testing"`
 }
 
 // Ticket holds the extracted data from the JQL queries

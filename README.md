@@ -8,15 +8,14 @@ Trout is a WordPress plugin **"release to production"** tool. It operates in the
 
 Googles' [Go language](https://go.dev) installed to enable building executables from source code.
 
-A `jira.json` file containing your API URL and Basic token to enable ticket creation:
+A `env.json` file containing your API URL and Basic token to enable ticket creation:
 
-``` go
+``` json
 {
-    "repo": "Path to Git Repository",
-    "base": "Jira Issue base URL",
-    "path": "Path to the Trout application",
-    "search": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
-    "token": "Email:Jira API Token combination with Base 64 Encoding"
+    "repo": "Path to the intended git repository containing composer-prod.json",
+    "cloud": "Jira cloud issue base URL ex. https://jira.com/rest/api/latest/",
+    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
+    "token": "Email:Jira API token combination with Base 64 Encoding"
 }
 ```
 
@@ -26,7 +25,7 @@ Trout searches the targeted Jira API for tickets marked **"In Progress"** (aka T
 
 ## Build
 
-From the root folder containing the `go` files, use the command that matches your environment:
+From the root folder containing the `main.go` file, use the command that matches your environment:
 
 ### Windows & Mac:
 
@@ -41,8 +40,6 @@ GOOS=linux GOARCH=amd64 go build -o [name] .
 ```
 
 ## Run
-
-Ensure the folder containing your ***composer.json*** file is predefined as variable and run:
 
 ``` console
 [program] [flag] [release name or number]

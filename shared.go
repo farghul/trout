@@ -15,11 +15,11 @@ var route = os.Args
 
 // Read json data and convert to struct
 func driver() {
-	data, err := os.ReadFile("jira.json")
+	data, err := os.ReadFile("env.json")
 	inspect(err)
 	json.Unmarshal(data, &access)
 
-	search := api(access.Search)
+	search := api(access.Testing)
 	json.Unmarshal(search, &jira)
 }
 
@@ -38,7 +38,7 @@ func compiler() []string {
 
 // Grab ticket information from the Jira API
 func api(criteria string) []byte {
-	result := execute("-c", "curl", "--request", "GET", "--url", access.Base+criteria, "--header", "Authorization: Basic "+access.Token, "--header", "Accept: application/json")
+	result := execute("-c", "curl", "--request", "GET", "--url", access.Cloud+criteria, "--header", "Authorization: Basic "+access.Token, "--header", "Accept: application/json")
 	return result
 }
 
