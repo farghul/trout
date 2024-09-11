@@ -5,7 +5,7 @@ func packagist() {
 	checkout()
 	execute("-e", "composer", "update", "--no-install")
 	sift(trout)
-	// push()
+	push()
 }
 
 // Create a release branch if necessary
