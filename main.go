@@ -15,7 +15,7 @@ func main() {
 				prepare()
 				release = route[2]
 				packagist()
-				journal("Release branch " + branch + release + " created.")
+				journal("Branch " + branch + release + " for Production release " + release + " created.")
 			}
 		case "-v", "--version":
 			version()

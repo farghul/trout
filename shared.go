@@ -11,11 +11,14 @@ import (
 	"time"
 )
 
-var route = os.Args
+var (
+	route   = os.Args
+	hmdr, _ = os.UserHomeDir()
+)
 
 // Read json data and convert to struct
 func driver() {
-	data, err := os.ReadFile("env.json")
+	data, err := os.ReadFile(hmdr + "/Shared/jsons/env.json")
 	inspect(err)
 	json.Unmarshal(data, &access)
 
@@ -115,7 +118,7 @@ func inspect(err error) {
 
 // Record a message to a log file
 func journal(message string) {
-	file, err := os.OpenFile("logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(hmdr+"/Shared/logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	inspect(err)
 	log.SetOutput(file)
 	log.Println(message)
