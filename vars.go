@@ -8,6 +8,8 @@ const (
 	red    string = "\033[41m"
 	branch string = "release/"
 	halt   string = "program halted "
+	logs   string = "/Shared/logs/"
+	jsons  string = "/Shared/jsons/"
 )
 
 var (

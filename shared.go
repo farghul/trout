@@ -18,7 +18,7 @@ var (
 
 // Read json data and convert to struct
 func driver() {
-	data, err := os.ReadFile(hmdr + "/Shared/jsons/env.json")
+	data, err := os.ReadFile(hmdr + jsons + "env.json")
 	inspect(err)
 	json.Unmarshal(data, &access)
 
@@ -118,7 +118,7 @@ func inspect(err error) {
 
 // Record a message to a log file
 func journal(message string) {
-	file, err := os.OpenFile(hmdr+"/Shared/logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(hmdr+logs+"trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	inspect(err)
 	log.SetOutput(file)
 	log.Println(message)
@@ -138,7 +138,7 @@ func version() {
 // Print help information for using the program
 func help() {
 	fmt.Println(yellow, "\nUsage:", reset)
-	fmt.Println("  [program] [flag] [release name or number")
+	fmt.Println("  [program] [flag] [release name or number]")
 	fmt.Println(yellow, "\nOptions:")
 	fmt.Println(green, " -h, --help", reset, "		Help Information")
 	fmt.Println(green, " -r, --release", reset, "	Release to Production")
