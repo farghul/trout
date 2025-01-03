@@ -12,13 +12,12 @@ import (
 )
 
 var (
-	route   = os.Args
-	hmdr, _ = os.UserHomeDir()
+	route = os.Args
 )
 
 // Read json data and convert to struct
 func driver() {
-	data, err := os.ReadFile(hmdr + jsons + "env.json")
+	data, err := os.ReadFile(home + "jsons/env.json")
 	inspect(err)
 	json.Unmarshal(data, &access)
 
@@ -56,7 +55,7 @@ func watchman(value string) time.Duration {
 
 // Confirm the current working directory is correct
 func changedir() {
-	os.Chdir(access.Repo)
+	os.Chdir(access.WordPress)
 	var filePath string = "composer-prod.json"
 
 	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
@@ -118,7 +117,7 @@ func inspect(err error) {
 
 // Record a message to a log file
 func journal(message string) {
-	file, err := os.OpenFile(hmdr+logs+"trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(home+"logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	inspect(err)
 	log.SetOutput(file)
 	log.Println(message)

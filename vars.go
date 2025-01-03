@@ -8,8 +8,7 @@ const (
 	red    string = "\033[41m"
 	branch string = "release/"
 	halt   string = "program halted "
-	logs   string = "/Shared/logs/"
-	jsons  string = "/Shared/jsons/"
+	home   string = "/data/scripts/automation/programs/"
 )
 
 var (
@@ -23,10 +22,10 @@ var (
 
 // Atlassian builds a list of jira tokens and api addresses
 type Atlassian struct {
-	Repo    string `json:"repo"`
-	Cloud   string `json:"cloud"`
-	Token   string `json:"token"`
-	Testing string `json:"testing"`
+	Cloud     string `json:"cloud"`
+	Token     string `json:"token"`
+	Testing   string `json:"testing"`
+	WordPress string `json:"wordpress"`
 }
 
 // Ticket holds the extracted data from the JQL queries

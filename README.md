@@ -12,10 +12,10 @@ An `env.json` file containing your API URL and Basic token to enable ticket crea
 
 ``` json
 {
-    "repo": "Path to the intended git repository containing composer-prod.json",
+    "token": "Email:Jira API token combination with Base 64 Encoding",
     "cloud": "Jira cloud issue base URL ex. https://jira.com/rest/api/latest/",
-    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
-    "token": "Email:Jira API token combination with Base 64 Encoding"
+    "wordpress": "Path to the intended git repository containing composer-prod.json",
+    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'"
 }
 ```
 
@@ -29,25 +29,25 @@ From the root folder containing the `main.go` file, use the command that matches
 
 ### Windows & Mac:
 
-``` console
+``` zsh
 go build -o [name] .
 ```
 
 ### Linux:
 
-``` console
+``` zsh
 GOOS=linux GOARCH=amd64 go build -o [name] .
 ```
 
 ## Run
 
-``` console
+``` zsh
 [program] [flag] [release name or number]
 ```
 
 ## Options
 
-``` console
+``` zsh
 -r, --release   Run the main program
 -h, --help      Help Information
 -v, --version   Display Program Version
@@ -55,7 +55,7 @@ GOOS=linux GOARCH=amd64 go build -o [name] .
 
 ## Example
 
-``` console
+``` zsh
 trout -r 88
 ```
 
