@@ -8,22 +8,11 @@ Trout is a `Release to Production` tool for WordPress plugin updates. It operate
 
 Googles' [Go language](https://go.dev) installed to enable building executables from source code.
 
-An `env.json` file containing your API URL and Basic token to enable ticket creation:
-
-``` json
-{
-    "bba": "Email:BitBucket API Token combination with Base 64 Encoding",
-    "bitbucket": "BitBucket API issue base URL ex. https://api.bitbucket.org/2.0/",
-    "jira": "Jira API issue base URL ex. https://jira.com/rest/api/latest/",
-    "jqa": "Email:Jira API token combination with Base 64 Encoding",
-    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
-    "wordpress": "Path to the intended Git repository containing composer-prod.json"
-}
-```
+An `env.json` file containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
 
 ## Function
 
-Trout searches the targeted Jira API for tickets marked as `In Progress` (aka Testing) for more than seven days. It then gathers the qualifying candidates and creates a new git branch named `update/[release]` where *release* is provided as an argument. Finally, it runs a series of `composer require` commands on the `composer-prod.json` file and prepares the new branch for a pull request.
+Trout searches the targeted Jira API for tickets marked as `In Progress` (aka Testing) for more than seven days. It then gathers the qualifying candidates and creates a new git branch named `update/[release]` where *release* is provided as an argument. Finally, it runs a series of `composer require` commands on the `composer-prod.json` file and creates a pull request for review.
 
 ## Build
 
