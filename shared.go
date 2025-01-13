@@ -40,7 +40,7 @@ func compiler() []string {
 
 // Grab ticket information from the Jira API
 func api(criteria string) []byte {
-	result := execute("-c", "curl", "--request", "GET", "--url", access.Cloud+criteria, "--header", "Authorization: Basic "+access.Token, "--header", "Accept: application/json")
+	result := execute("-c", "curl", "--request", "GET", "--url", access.Jira+criteria, "--header", "Authorization: Basic "+access.JQA, "--header", "Accept: application/json")
 	return result
 }
 

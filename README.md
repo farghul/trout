@@ -12,10 +12,12 @@ An `env.json` file containing your API URL and Basic token to enable ticket crea
 
 ``` json
 {
-    "token": "Email:Jira API token combination with Base 64 Encoding",
-    "cloud": "Jira cloud issue base URL ex. https://jira.com/rest/api/latest/",
-    "wordpress": "Path to the intended git repository containing composer-prod.json",
-    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'"
+    "bba": "Email:BitBucket API Token combination with Base 64 Encoding",
+    "bitbucket": "BitBucket API issue base URL ex. https://api.bitbucket.org/2.0/",
+    "jira": "Jira API issue base URL ex. https://jira.com/rest/api/latest/",
+    "jqa": "Email:Jira API token combination with Base 64 Encoding",
+    "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
+    "wordpress": "Path to the intended Git repository containing composer-prod.json"
 }
 ```
 

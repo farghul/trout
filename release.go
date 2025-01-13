@@ -6,6 +6,7 @@ func packagist() {
 	execute("-e", "composer", "update", "--no-install")
 	sift(trout)
 	push()
+	pullrequest()
 }
 
 // Create a release branch if necessary
@@ -37,13 +38,18 @@ func require() {
 	}
 }
 
-// Add and commit the update
+// Add and commit the updated code
 func commit() {
 	execute("-e", "git", "add", ".")
 	execute("-e", "git", "commit", "-m", ticket+" "+plugin)
 }
 
-// Push modified content to the git repository
+// Push the modified content to the git repository
 func push() {
 	execute("-e", "git", "push", "--set-upstream", "origin", branch+release)
+}
+
+// Create a pull request in BitBucket for the Production deployment release
+func pullrequest() {
+	execute("-e", "curl", "-L", "-X", "POST", "--url", access.BitBucket+branch+release+"/pull-requests/", "--header", "Authorization: Basic "+access.BBA, "--header", "Content-Type: application/json", "--data", "{'title': 'Release/"+release+"','source': {'branch': {'name': '"+branch+release+"'}}, 'destination': {'branch': {'name': 'master'}}, 'reviewers': [{'uuid': '"+access.Reviewer1+"'}], 'close_source_branch': true}")
 }
