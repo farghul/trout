@@ -8,7 +8,7 @@ Trout is a `Release to Production` tool for WordPress plugin updates. It operate
 
 Googles' [Go language](https://go.dev) installed to enable building executables from source code.
 
-An `env.json` file containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
+A `bitbucket.json` and `jira.json` file containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
 
 ## Function
 

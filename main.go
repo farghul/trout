@@ -7,7 +7,7 @@ func main() {
 		case "-h", "--help":
 			help()
 		case "-r", "--release":
-			driver()
+			serialize()
 			trout = compiler()
 
 			if len(trout) > 0 {

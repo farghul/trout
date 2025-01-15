@@ -15,24 +15,31 @@ var (
 	route = os.Args
 )
 
-// Read json data and convert to struct
-func driver() {
-	data, err := os.ReadFile(home + "jsons/env.json")
-	inspect(err)
-	json.Unmarshal(data, &access)
+// Read the JSON files and Unmarshal the data into the appropriate Go structure
+func serialize() {
+	for index, element := range jsons {
+		data, err := os.ReadFile(element)
+		inspect(err)
+		switch index {
+		case 0:
+			json.Unmarshal(data, &bitbucket)
+		case 1:
+			json.Unmarshal(data, &jira)
+		}
+	}
 
-	search := api(access.Testing)
-	json.Unmarshal(search, &jira)
+	search := api(jira.Testing)
+	json.Unmarshal(search, &query)
 }
 
 // Build the list of candidates for production release
 func compiler() []string {
 	var candidate []string
 	h, _ := time.ParseDuration("168h")
-	for i := 0; i < len(jira.Issues); i++ {
-		if watchman(jira.Issues[i].Fields.Updated) > h {
-			candidate = append(candidate, jira.Issues[i].Fields.Summary)
-			candidate = append(candidate, jira.Issues[i].Key)
+	for i := 0; i < len(query.Issues); i++ {
+		if watchman(query.Issues[i].Fields.Updated) > h {
+			candidate = append(candidate, query.Issues[i].Fields.Summary)
+			candidate = append(candidate, query.Issues[i].Key)
 		}
 	}
 	return candidate
@@ -40,7 +47,7 @@ func compiler() []string {
 
 // Grab ticket information from the Jira API
 func api(criteria string) []byte {
-	result := execute("-c", "curl", "--request", "GET", "--url", access.Jira+criteria, "--header", "Authorization: Basic "+access.JQA, "--header", "Accept: application/json")
+	result := execute("-c", "curl", "--request", "GET", "--url", jira.URL+criteria, "--header", "Authorization: Basic "+jira.Token, "--header", "Accept: application/json")
 	return result
 }
 
@@ -55,7 +62,7 @@ func watchman(value string) time.Duration {
 
 // Confirm the current working directory is correct
 func changedir() {
-	os.Chdir(access.WordPress)
+	os.Chdir(bitbucket.WordPress)
 	var filePath string = "composer-prod.json"
 
 	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
@@ -117,7 +124,7 @@ func inspect(err error) {
 
 // Record a message to a log file
 func journal(message string) {
-	file, err := os.OpenFile(home+"logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(programs+"logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	inspect(err)
 	log.SetOutput(file)
 	log.Println(message)

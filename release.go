@@ -51,5 +51,5 @@ func push() {
 
 // Create a pull request in BitBucket for the Production deployment release
 func pullrequest() {
-	execute("-e", "curl", "-L", "-X", "POST", "--url", access.BitBucket+branch+release+"/pull-requests/", "--header", "Authorization: Basic "+access.BBA, "--header", "Content-Type: application/json", "--data", "{'title': 'Release/"+release+"','source': {'branch': {'name': '"+branch+release+"'}}, 'destination': {'branch': {'name': 'master'}}, 'reviewers': [{'uuid': '"+access.Reviewer1+"'}], 'close_source_branch': true}")
+	execute("-e", "curl", "-L", "-X", "POST", "--url", bitbucket.URL+branch+release+"/pull-requests/", "--header", "Authorization: Basic "+bitbucket.Token, "--header", "Content-Type: application/json", "--data", "{'title': 'Release/"+release+"','source': {'branch': {'name': '"+branch+release+"'}}, 'destination': {'branch': {'name': 'master'}}, 'reviewers': [{'uuid': '"+bitbucket.Reviewer1+"'}], 'close_source_branch': true}")
 }
