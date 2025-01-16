@@ -12,7 +12,7 @@ func packagist() {
 // Create a release branch if necessary
 func checkout() {
 	if exists(branch, release) {
-		execute("-e", "git", "switch", branch+release)
+		execute("-e", "git", "checkout", branch+release)
 	} else {
 		execute("-e", "git", "checkout", "-b", branch+release)
 	}

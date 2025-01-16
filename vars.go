@@ -9,7 +9,6 @@ const (
 	branch   string = "release/"
 	halt     string = "program halted "
 	programs string = "/data/scripts/automation/programs/"
-	repos    string = "/data/scripts/automation/repos/"
 )
 
 var (
