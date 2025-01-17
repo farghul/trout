@@ -32,6 +32,12 @@ func serialize() {
 	json.Unmarshal(search, &query)
 }
 
+// Grab ticket information from the Jira API
+func api(criteria string) []byte {
+	result := execute("-c", "curl", "--request", "GET", "--url", jira.URL+"search?jql="+criteria, "--header", "Authorization: Basic "+jira.Token, "--header", "Accept: application/json")
+	return result
+}
+
 // Build the list of candidates for production release
 func compiler() []string {
 	var candidate []string
@@ -45,15 +51,9 @@ func compiler() []string {
 	return candidate
 }
 
-// Grab ticket information from the Jira API
-func api(criteria string) []byte {
-	result := execute("-c", "curl", "--request", "GET", "--url", jira.URL+"search?jql="+criteria, "--header", "Authorization: Basic "+jira.Token, "--header", "Accept: application/json")
-	return result
-}
-
 // Determine how long a ticket status has been "In Progress"
 func watchman(value string) time.Duration {
-	stamp := strings.Replace(value, "-0800", "Z", 1)
+	stamp := strings.Replace(value, "-0800", "999999Z", 1)
 	date, error := time.Parse(time.RFC3339Nano, stamp)
 	inspect(error)
 	waiting := time.Since(date)
@@ -124,7 +124,7 @@ func inspect(err error) {
 
 // Record a message to a log file
 func journal(message string) {
-	file, err := os.OpenFile(programs+"logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(assets+"logs/trout.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	inspect(err)
 	log.SetOutput(file)
 	log.Println(message)

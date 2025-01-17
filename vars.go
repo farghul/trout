@@ -1,14 +1,14 @@
 package main
 
 const (
-	bv       string = "1.0.0"
-	reset    string = "\033[0m"
-	green    string = "\033[32m"
-	yellow   string = "\033[33m"
-	red      string = "\033[41m"
-	branch   string = "release/"
-	halt     string = "program halted "
-	programs string = "/data/scripts/automation/programs/"
+	bv     string = "1.0.0"
+	reset  string = "\033[0m"
+	green  string = "\033[32m"
+	yellow string = "\033[33m"
+	red    string = "\033[41m"
+	branch string = "release/"
+	halt   string = "program halted "
+	assets string = "/data/scripts/automation/assets/"
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 	query     JQL
 	jira      Jira
 	bitbucket BitBucket
-	jsons     = []string{programs + "jsons/bitbucket.json", programs + "jsons/jira.json"}
+	jsons     = []string{assets + "jsons/bitbucket.json", assets + "jsons/jira.json"}
 )
 
 // BitBucket builds a list of BitBucket tokens and api addresses
