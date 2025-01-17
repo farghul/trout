@@ -72,7 +72,7 @@ func changedir() {
 
 // Switch to the desired branch, and pull any changes
 func prepare() {
-	execute("-e", "git", "checkout", "development")
+	execute("-e", "git", "checkout", "master")
 	execute("-e", "git", "pull")
 }
 
