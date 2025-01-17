@@ -53,7 +53,7 @@ func api(criteria string) []byte {
 
 // Determine how long a ticket status has been "In Progress"
 func watchman(value string) time.Duration {
-	stamp := strings.Replace(value, "-0700", "Z", 1)
+	stamp := strings.Replace(value, "-0800", "Z", 1)
 	date, error := time.Parse(time.RFC3339Nano, stamp)
 	inspect(error)
 	waiting := time.Since(date)
