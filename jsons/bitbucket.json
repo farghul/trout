@@ -1,6 +1,9 @@
 {
-    "reviewer1": "Universally Unique Identifier (UUID) for reviewer1",
-    "reviewer2": "Universally Unique Identifier (UUID) for reviewer2",
+    "reviewers": {
+        "one": "Pull Request Reviewer email address",
+        "two": "Pull Request Reviewer email address",
+        "three": "Pull Request Reviewer email address"
+    },
     "token": "Email:BitBucket API Token combination with Base 64 Encoding",
     "url": "BitBucket API issue base URL ex. https://api.bitbucket.org/2.0/",
     "uuid": "Universally Unique Identifier (UUID)",

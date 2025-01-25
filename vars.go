@@ -24,12 +24,15 @@ var (
 
 // BitBucket builds a list of BitBucket tokens and api addresses
 type BitBucket struct {
-	Reviewer1 string `json:"reviewer1"`
-	Reviewer2 string `json:"reviewer2"`
 	Token     string `json:"token"`
 	URL       string `json:"url"`
 	UUID      string `json:"uuid"`
 	WordPress string `json:"wordpress"`
+	Reviewers struct {
+		One   string `json:"one"`
+		Two   string `json:"two"`
+		Three string `json:"three"`
+	}
 }
 
 // Jira builds a list of jira tokens and api addresses
