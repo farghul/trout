@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	route = os.Args
+	flag = os.Args
 )
 
 // Read the JSON files and Unmarshal the data into the appropriate Go structure
