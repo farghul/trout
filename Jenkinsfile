@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'cactuar && deploy' }
+    agent { label "cactuar && deploy" }
     options {
         buildDiscarder logRotator(
             artifactDaysToKeepStr: "28",
@@ -9,33 +9,33 @@ pipeline {
         )
     }
     triggers {
-        cron "H 9 * * 3"
+        cron "H 11 * * 3"
     }
     stages {
-        stage('Sync') {
+        stage("Sync") {
             steps {
-                lock('satis-rebuild-resource') {
+                lock("satis-rebuild-resource") {
                     dir("/data/scripts/automation/github/trout") {
-                        sh 'git pull'
+                        sh "git pull"
                     }
                 }
             }
         }
-        stage('Build') {
+        stage("Build") {
             steps {
-                lock('satis-rebuild-resource') {
+                lock("satis-rebuild-resource") {
                     dir("/data/scripts/automation/github/trout") {
-                        sh '/data/apps/go/bin/go build -o /data/scripts/automation/programs/trout .'
+                        sh "/data/apps/go/bin/go build -o /data/scripts/automation/programs/trout ."
                     }
                 }
             }
         }
-        stage('PR') {
+        stage("Run") {
             steps {
-                lock('satis-rebuild-resource') {
-                    timeout(time: 5, unit: 'MINUTES') {
+                lock("satis-rebuild-resource") {
+                    timeout(time: 5, unit: "MINUTES") {
                         retry(2) {
-                            sh '/data/scripts/automation/scripts/run_trout.sh'
+                            sh "/data/scripts/automation/scripts/run_trout.sh ${release}"
                         }
                     }
                 }
