@@ -45,8 +45,8 @@ GOOS=linux GOARCH=amd64 go build -o [name] .
 ## Options
 
 ``` zsh
--r, --release   Run the main program
 -h, --help      Help Information
+-r, --run       Run the main program
 -v, --version   Display Program Version
 ```
 

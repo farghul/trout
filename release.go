@@ -9,6 +9,12 @@ func packagist() {
 	pullrequest()
 }
 
+// Switch to the desired branch, and pull any changes
+func prepare() {
+	execute("-e", "git", "checkout", "master")
+	execute("-e", "git", "pull")
+}
+
 // Create a release branch if necessary
 func checkout() {
 	if exists(branch, release) {
