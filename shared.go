@@ -57,7 +57,7 @@ func watchman(value string) time.Duration {
 
 func proceed(task []string) {
 	if len(task) == 0 {
-		alert("No tickets eligible for release")
+		alert("No tickets eligible for release -")
 	}
 }
 
@@ -75,8 +75,6 @@ func changedir() {
 func execute(variation, task string, args ...string) []byte {
 	osCmd := exec.Command(task, args...)
 	switch variation {
-	case "-e":
-		exec.Command(task, args...).CombinedOutput()
 	case "-c":
 		result, err := osCmd.Output()
 		inspect(err)
