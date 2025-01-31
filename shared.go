@@ -55,6 +55,12 @@ func watchman(value string) time.Duration {
 	return waiting
 }
 
+func proceed(task []string) {
+	if len(task) == 0 {
+		alert("No tickets eligible for release")
+	}
+}
+
 // Confirm the current working directory is correct
 func changedir() {
 	os.Chdir(bitbucket.WordPress)

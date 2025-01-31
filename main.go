@@ -14,6 +14,7 @@ func main() {
 	case "-r", "--run":
 		serialize()
 		trout = compiler()
+		proceed(trout)
 		changedir()
 		prepare()
 		release = os.Args[2]
