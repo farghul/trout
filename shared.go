@@ -10,19 +10,6 @@ import (
 	"time"
 )
 
-var flag []string
-
-// Test for an operational flag
-func flags() []string {
-
-	if len(os.Args) < 3 {
-		flag[1] = "--zero"
-	} else {
-		flag[1] = os.Args[1]
-	}
-	return flag
-}
-
 // Read the JSON files and Unmarshal the data into the appropriate Go structure
 func serialize() {
 	for index, element := range jsons {

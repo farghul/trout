@@ -8,9 +8,7 @@ import (
 
 // Launch the program and execute according to the supplied flag
 func main() {
-	flag = flags()
-
-	switch flag[1] {
+	switch os.Args[1] {
 	case "-h", "--help":
 		help()
 	case "-r", "--run":
@@ -18,7 +16,7 @@ func main() {
 		trout = compiler()
 		changedir()
 		prepare()
-		release = flag[2]
+		release = os.Args[2]
 		packagist()
 		journal("Branch " + branch + release + " for Production release " + release + " created.")
 	case "-v", "--version":
