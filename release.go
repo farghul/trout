@@ -6,7 +6,7 @@ func packagist() {
 	execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "update", "--no-install")
 	sift(trout)
 	push()
-	pullrequest()
+	// pullrequest()
 }
 
 // Switch to the desired branch, and pull any changes
@@ -55,7 +55,9 @@ func push() {
 	execute("-v", "git", "push", "--set-upstream", "origin", branch+release)
 }
 
+/* Needs more work
 // Create a pull request in BitBucket for the Production deployment release
 func pullrequest() {
 	execute("-v", "curl", "-L", "-X", "POST", "--url", bitbucket.URL+branch+release+"/pull-requests/", "--header", "Authorization: Basic "+bitbucket.Token, "--header", "Content-Type: application/json", "--data", "{'title': 'Release/"+release+"','source': {'branch': {'name': '"+branch+release+"'}}, 'destination': {'branch': {'name': 'master'}}, 'reviewers': [{'uuid': '"+bitbucket.Reviewers.One+"'}], 'close_source_branch': false}")
 }
+*/

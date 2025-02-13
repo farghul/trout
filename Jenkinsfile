@@ -8,9 +8,6 @@ pipeline {
             numToKeepStr: "10"
         )
     }
-    triggers {
-        cron "H 11 * * 3"
-    }
     stages {
         stage("Sync") {
             steps {
