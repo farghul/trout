@@ -47,7 +47,7 @@ func require() {
 // Add and commit the updated code
 func commit() {
 	execute("-v", "git", "add", ".")
-	execute("-v", "git", "commit", "-m", ticket+" "+plugin)
+	execute("-v", "git", "commit", "-m", ticket, "-m", "Install "+plugin)
 }
 
 // Push the modified content to the git repository

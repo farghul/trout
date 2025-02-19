@@ -1,3 +1,3 @@
 module github.com/farghul/trout
 
-go 1.23
+go 1.24
