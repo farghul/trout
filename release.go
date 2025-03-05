@@ -3,7 +3,7 @@ package main
 // A sequential list of tasks run to complete the program
 func packagist() {
 	checkout()
-	execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "update", "--no-install")
+	// execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "update", "--no-install")
 	sift(trout)
 	push()
 	// pullrequest()
