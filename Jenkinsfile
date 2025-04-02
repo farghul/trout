@@ -12,8 +12,12 @@ pipeline {
         stage("Sync") {
             steps {
                 lock("satis-rebuild-resource") {
-                    dir("/data/scripts/automation/github/trout") {
-                        sh "git pull"
+                    dir("/data/automation/github/trout") {
+                        sh '''#!/bin/bash
+                        source ~/.bashrc
+                        git fetch --all
+                        git pull
+                        '''
                     }
                 }
             }
@@ -21,8 +25,8 @@ pipeline {
         stage("Build") {
             steps {
                 lock("satis-rebuild-resource") {
-                    dir("/data/scripts/automation/github/trout") {
-                        sh "/data/apps/go/bin/go build -o /data/scripts/automation/programs/trout ."
+                    dir("/data/automation/github/trout") {
+                        sh "/data/apps/go/bin/go build -o /data/automation/bin/trout ."
                     }
                 }
             }
@@ -32,7 +36,7 @@ pipeline {
                 lock("satis-rebuild-resource") {
                     timeout(time: 5, unit: "MINUTES") {
                         retry(2) {
-                            sh "/data/scripts/automation/scripts/run_trout.sh ${release}"
+                            sh "/data/automation/scripts/trout.sh ${release}"
                         }
                     }
                 }

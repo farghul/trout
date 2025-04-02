@@ -16,10 +16,10 @@ Trout searches the targeted Jira API for tickets marked as `In Progress` (aka Te
 
 ## Build
 
-Before building the application, change the value of the `assets` constant to reflect your environment:
+Before building the application, change the value of the `resources` constant to reflect your environment:
 
 ``` go
-assets string = "/data/scripts/automation/assets/"
+resources string = "/data/automation/resources/"
 ```
 
 Then, from the root folder containing `main.go`, use the command that matches your environment:
