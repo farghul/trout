@@ -6,7 +6,7 @@ Trout is a `Release to Production` tool for WordPress plugin updates. It operate
 
 ## Prerequisites
 
-Googles' [Go language](https://go.dev) installed to enable building executables from source code.
+The [Go Programming Language](https://go.dev "Build simple, secure, scalable systems with Go") installed to enable building executables from source code.
 
 A `bitbucket.json` and `jira.json` file containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
 
@@ -58,4 +58,4 @@ trout -r 88
 
 ## License
 
-Code is distributed under [The Unlicense](https://github.com/farghul/trout/blob/main/LICENSE.md) and is part of the Public Domain.
+Code is distributed under [The Unlicense](https://github.com/farghul/trout/blob/main/LICENSE.md "Unlicense Yourself, Set Your Code Free") and is part of the Public Domain.

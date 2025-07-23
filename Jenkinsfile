@@ -16,6 +16,7 @@ pipeline {
                         sh '''#!/bin/bash
                         source ~/.bashrc
                         git fetch --all
+                        git switch main
                         git pull
                         '''
                     }
@@ -26,7 +27,7 @@ pipeline {
             steps {
                 lock("satis-rebuild-resource") {
                     dir("/data/automation/github/trout") {
-                        sh "/data/apps/go/bin/go build -o /data/automation/bin/trout ."
+                        sh "/data/apps/go/bin/go build -o /data/automation/bin/trout"
                     }
                 }
             }
@@ -36,7 +37,9 @@ pipeline {
                 lock("satis-rebuild-resource") {
                     timeout(time: 5, unit: "MINUTES") {
                         retry(2) {
-                            sh "/data/automation/scripts/trout.sh ${release}"
+                            dir("/data/automation/bitbucket/desso-automation-conf/scripts/plugin") {
+                                sh "trout.sh"
+                            }
                         }
                     }
                 }
