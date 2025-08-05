@@ -9,39 +9,38 @@ pipeline {
         )
     }
     stages {
-        stage("Sync") {
+        stage('Clean WS') {
             steps {
-                lock("satis-rebuild-resource") {
-                    dir("/data/automation/github/trout") {
-                        sh '''#!/bin/bash
-                        source ~/.bashrc
-                        git fetch --all
-                        git switch main
-                        git pull
-                        '''
-                    }
+                cleanWs()
+            }
+        }
+        stage("Checkout Trout") {
+            steps {
+                checkout scmGit(
+                    branches: [[name: 'main']],
+                    userRemoteConfigs: [[url: 'https://github.com/farghul/trout.git']]
+                )
+            }
+        }
+        stage("Build Trout") {
+            steps {
+                script {
+                    sh "/data/apps/go/bin/go build -o /data/automation/bin/trout"
                 }
             }
         }
-        stage("Build") {
+        stage("Checkout DAC") {
             steps {
-                lock("satis-rebuild-resource") {
-                    dir("/data/automation/github/trout") {
-                        sh "/data/apps/go/bin/go build -o /data/automation/bin/trout"
-                    }
-                }
+                checkout scmGit(
+                    branches: [[name: 'main']],
+                    userRemoteConfigs: [[credentialsId: 'DES-Project', url: 'https://bitbucket.org/bc-gov/desso-automation-conf.git']]
+                )
             }
         }
-        stage("Run") {
+        stage('Run Trout') {
             steps {
-                lock("satis-rebuild-resource") {
-                    timeout(time: 5, unit: "MINUTES") {
-                        retry(2) {
-                            dir("/data/automation/bitbucket/desso-automation-conf/scripts/plugin") {
-                                sh "trout.sh"
-                            }
-                        }
-                    }
+                script {
+                    sh './scripts/plugin/trout.sh'
                 }
             }
         }
