@@ -1,14 +1,15 @@
 package main
 
 const (
-	bv        string = "1.0.0"
-	reset     string = "\033[0m"
-	green     string = "\033[32m"
-	yellow    string = "\033[33m"
-	red       string = "\033[41m"
-	branch    string = "release/"
-	halt      string = "program halted "
-	resources string = "/data/automation/resources/"
+	bv     string = "1.0.0"
+	reset  string = "\033[0m"
+	green  string = "\033[32m"
+	yellow string = "\033[33m"
+	red    string = "\033[41m"
+	branch string = "release/"
+	halt   string = "program halted "
+	repos  string = "/data/automation/checkouts/"
+	config string = "desso-automation-conf/jsons/"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 	query     JQL
 	jira      Jira
 	bitbucket BitBucket
-	jsons     = []string{resources + "bitbucket.json", resources + "jira.json"}
+	jsons     = []string{repos + config + "bitbucket.json", repos + config + "jira.json"}
 )
 
 // BitBucket builds a list of BitBucket tokens and api addresses

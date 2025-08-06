@@ -9,39 +9,55 @@ pipeline {
         )
     }
     stages {
-        stage('Clean WS') {
+        stage("Empty_Folder") {
             steps {
-                cleanWs()
-            }
-        }
-        stage("Checkout Trout") {
-            steps {
-                checkout scmGit(
-                    branches: [[name: 'main']],
-                    userRemoteConfigs: [[url: 'https://github.com/farghul/trout.git']]
-                )
-            }
-        }
-        stage("Build Trout") {
-            steps {
-                script {
-                    sh "/data/apps/go/bin/go build -o /data/automation/bin/trout"
+                dir('/data/automation/checkouts'){
+                    script {
+                        deleteDir()
+                    }
                 }
             }
         }
-        stage("Checkout DAC") {
-            steps {
-                checkout scmGit(
-                    branches: [[name: 'main']],
-                    userRemoteConfigs: [[credentialsId: 'DES-Project', url: 'https://bitbucket.org/bc-gov/desso-automation-conf.git']]
-                )
+        stage('Checkout_Trout'){
+            steps{
+                dir('/data/automation/checkouts/trout'){
+                    git url: 'https://github.com/farghul/trout.git' , branch: 'main'
+                }
             }
         }
-        stage('Run Trout') {
+        stage('Build_Trout') {
             steps {
-                script {
-                    sh './scripts/plugin/trout.sh'
+                dir('/data/automation/checkouts/trout'){
+                    script {
+                        sh "/data/apps/go/bin/go build -o /data/automation/bin/trout"
+                    }
                 }
+            }
+        }
+        stage("Checkout_DAC") {
+            steps{
+                dir('/data/automation/checkouts/dac'){
+                    git credentialsId: 'DES-Project', url: 'https://bitbucket.org/bc-gov/desso-automation-conf.git', branch: 'main'
+                }
+            }
+        }
+        stage('Run_Trout') {
+            steps {
+                dir('/data/automation/checkouts/dac'){
+                    script {
+                        sh './scripts/plugin/trout.sh'
+                    }
+                }
+            }
+        }
+        post {
+            always {
+                cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'], [pattern: '.propsfile', type: 'EXCLUDE']]
+                )
             }
         }
     }
