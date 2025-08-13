@@ -43,9 +43,9 @@ pipeline {
         }
         stage('Run_Trout') {
             steps {
-                dir('/data/automation/checkouts/dac'){
+                dir('/data/automation/checkouts/dac/scripts/plugin'){
                     script {
-                        sh './scripts/plugin/trout.sh'
+                        sh './trout.sh'
                     }
                 }
             }
