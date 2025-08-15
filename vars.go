@@ -9,6 +9,7 @@ const (
 	branch string = "release/"
 	halt   string = "program halted "
 	repos  string = "/data/automation/checkouts/"
+	tokens string = "/data/automation/tokens/"
 	config string = "desso-automation-conf/jsons/"
 )
 
@@ -19,13 +20,13 @@ var (
 	release   string
 	query     JQL
 	jira      Jira
+	token     Token
 	bitbucket BitBucket
-	jsons     = []string{repos + config + "bitbucket.json", repos + config + "jira.json"}
+	jsons     = []string{repos + config + "bitbucket.json", repos + config + "jira.json", tokens + "tokens.json"}
 )
 
 // BitBucket builds a list of BitBucket tokens and api addresses
 type BitBucket struct {
-	Token     string `json:"token"`
 	URL       string `json:"url"`
 	UUID      string `json:"uuid"`
 	WordPress string `json:"wordpress"`
@@ -39,7 +40,6 @@ type BitBucket struct {
 // Jira builds a list of jira tokens and api addresses
 type Jira struct {
 	Testing string `json:"testing"`
-	Token   string `json:"token"`
 	URL     string `json:"url"`
 }
 
@@ -62,10 +62,16 @@ type JQL struct {
 					Name      string `json:"name"`
 				} `json:"statusCategory"`
 			} `json:"status"`
-			Updated     string        `json:"updated"`
-			Summary     string        `json:"summary"`
-			FixVersions []interface{} `json:"fixVersions"`
-			Created     string        `json:"created"`
+			Updated     string `json:"updated"`
+			Summary     string `json:"summary"`
+			FixVersions []any  `json:"fixVersions"`
+			Created     string `json:"created"`
 		} `json:"fields"`
 	} `json:"issues"`
+}
+
+// Tokens builds a list of jira tokens and api addresses
+type Token struct {
+	Bitbucket string `json:"bitbucket"`
+	Jira      string `json:"jira"`
 }

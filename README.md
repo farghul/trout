@@ -4,22 +4,45 @@ Trout is a `Release to Production` tool for WordPress plugin updates. It operate
 
 ![Trout](trout.webp)
 
-## Prerequisites
+## 📚 Prerequisites
 
 The [Go Programming Language](https://go.dev "Build simple, secure, scalable systems with Go") installed to enable building executables from source code.
 
-A `bitbucket.json` and `jira.json` file containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
+A number of JSON formatted files containing your API URLs and Basic tokens to enable authorized querying, ticket modification, and the creation of pull requests (see `jsons` folder for reference).
 
-## Function
+## 🔩 Function
 
 Trout searches the targeted Jira API for tickets marked as `In Progress` (aka Testing) for more than seven days. It then gathers the qualifying candidates and creates a new git branch named `update/[release]` where *release* is provided as an argument. Finally, it runs a series of `composer require` commands on the `composer-prod.json` file and creates a pull request for review.
 
-## Build
+## 📂 Project Structure
 
-Before building the application, change the value of the `resources` constant to reflect your environment:
+Inside of your Bowerbird project, you'll see the following folders and files:
+
+``` zsh
+.
+├── jsons/
+│   ├── bitbucket.json
+│   ├── jira.json
+│   ├── tokens.json
+├── go.mod
+├── Jenkisfile
+├── LICENSE.md
+├── main.go
+├── README.md
+├── release.go
+├── shared.go
+├── trout.webp
+└── vars.go
+```
+
+## 🚧 Build
+
+Before building the application, change the value of these constants to reflect your environment:
 
 ``` go
-resources string = "/data/automation/resources/"
+repos  string = "/data/automation/checkouts/"
+tokens string = "/data/automation/tokens/"
+config string = "desso-automation-conf/jsons/"
 ```
 
 Then, from the root folder containing `main.go`, use the command that matches your environment:
@@ -36,26 +59,20 @@ go build -o [name] .
 GOOS=linux GOARCH=amd64 go build -o [name] .
 ```
 
-## Run
+## 🏃 Run
 
 ``` zsh
-[program] [flag] [release name or number]
+trout -r [release name or number]
 ```
 
-## Options
+## 🎏 Available Flags
 
-``` zsh
--h, --help      Help Information
--r, --run       Run the main program
--v, --version   Display Program Version
-```
+| Command               | Action                      |
+|:----------------------|:----------------------------|
+|    `-h, --help`       |   Help information          |
+|    `-r, --run`        |   Run program               |
+|    `-v, --version`    |   Display program version   |
 
-## Example
-
-``` zsh
-trout -r 88
-```
-
-## License
+## 🎫 License
 
 Code is distributed under [The Unlicense](https://github.com/farghul/trout/blob/main/LICENSE.md "Unlicense Yourself, Set Your Code Free") and is part of the Public Domain.

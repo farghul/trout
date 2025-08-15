@@ -4,7 +4,6 @@
         "two": "Pull Request Reviewer email address",
         "three": "Pull Request Reviewer email address"
     },
-    "token": "Email:BitBucket API Token combination with Base 64 Encoding",
     "url": "BitBucket API issue base URL ex. https://api.bitbucket.org/2.0/",
     "uuid": "Universally Unique Identifier (UUID)",
     "wordpress": "Path to the intended Git repository containing composer-prod.json file"
