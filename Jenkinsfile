@@ -9,7 +9,7 @@ pipeline {
         )
     }
     stages {
-        stage("Empty_Folder") {
+        stage("Clear") {
             steps {
                 dir('/data/automation/checkouts'){
                     script {
@@ -18,14 +18,17 @@ pipeline {
                 }
             }
         }
-        stage('Checkout_Trout'){
+        stage("Checkouts"){
             steps{
-                dir('/data/automation/checkouts/trout'){
-                    git url: 'https://github.com/farghul/trout.git' , branch: 'main'
+                dir("/data/automation/checkouts/trout"){
+                    git url: "https://github.com/farghul/trout.git", branch: "main"
+                }
+                dir("/data/automation/checkouts/dac"){
+                    git credentialsId: "DES-Project", url: "https://bitbucket.org/bc-gov/desso-automation-conf.git", branch: "main"
                 }
             }
         }
-        stage('Build_Trout') {
+        stage('Build') {
             steps {
                 dir('/data/automation/checkouts/trout'){
                     script {
@@ -34,16 +37,9 @@ pipeline {
                 }
             }
         }
-        stage("Checkout_DAC") {
-            steps{
-                dir('/data/automation/checkouts/dac'){
-                    git credentialsId: 'DES-Project', url: 'https://bitbucket.org/bc-gov/desso-automation-conf.git', branch: 'main'
-                }
-            }
-        }
-        stage('Run_Trout') {
+        stage('Run') {
             steps {
-                dir('/data/automation/checkouts/dac/scripts/plugin'){
+                dir("/data/automation/checkouts/trout"){
                     script {
                         sh './trout.sh'
                     }
