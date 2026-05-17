@@ -10,6 +10,17 @@ import (
 	"time"
 )
 
+// Test for an optional flag
+func flag() string {
+	var passed string
+	if len(os.Args) < 3 {
+		passed = "--short"
+	} else {
+		passed = os.Args[1]
+	}
+	return passed
+}
+
 // Read the JSON files and Unmarshal the data into the appropriate Go structure
 func serialize() {
 	for index, element := range jsons {
@@ -98,7 +109,7 @@ func watchman(value string) time.Duration {
 // Alert the user if there are no tickets eligible for release
 func proceed(task []string) {
 	if len(task) == 0 {
-		alert("No tickets eligible for release -")
+		alert("No tickets eligible for release - ")
 	}
 }
 

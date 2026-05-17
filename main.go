@@ -7,8 +7,9 @@ import (
 
 // Launch the program and execute according to the supplied flag
 func main() {
+	orders := flag()
 	logo()
-	switch os.Args[1] {
+	switch orders {
 	case "-h", "--help":
 		help()
 	case "-r", "--run":
@@ -22,8 +23,10 @@ func main() {
 		packagist()
 		journal("Branch " + branch + release + " for Production release " + release + " created.")
 	case "-v", "--version":
+	case "--short":
+		alert("Insufficient number of arguments - ")
 	default:
-		alert("Unknown argument(s) -")
+		alert("Unknown argument(s) - ")
 	}
 }
 
