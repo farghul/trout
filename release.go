@@ -1,12 +1,20 @@
 package main
 
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
+
 // A sequential list of tasks run to complete the program
 func packagist() {
 	checkout()
 	execute("env", []string{"COMPOSER=composer-prod.json", "composer", "update", "--no-install"}, ExecOptions{Stream: true})
 	sift(trout)
 	push()
-	// pullrequest()
+	pullrequest()
 }
 
 // Switch to the development branch, and pull any changes
@@ -33,7 +41,7 @@ func require() {
 	}
 }
 
-// Add and commit the update
+// Stage all changes and commit the update
 func commit() {
 	execute("git", []string{"add", "."}, ExecOptions{Stream: true})
 	execute("git", []string{"commit", "-m", ticket, "-m", "Install " + plugin}, ExecOptions{Stream: true})
@@ -44,9 +52,36 @@ func push() {
 	execute("git", []string{"push"}, ExecOptions{Stream: true})
 }
 
-/* Needs more work
-// Create a pull request in BitBucket for the Production deployment release
+// Create a pull request in bitbucket
 func pullrequest() {
-	execute("-v", "curl", "-L", "-X", "POST", "--url", bitbucket.URL+branch+release+"/pull-requests/", "--header", "Authorization: Basic "+token.Bitbucket, "--header", "Content-Type: application/json", "--data", "{'title': 'Release/"+release+"','source': {'branch': {'name': '"+branch+release+"'}}, 'destination': {'branch': {'name': 'master'}}, 'reviewers': [{'uuid': '"+bitbucket.Reviewers.One+"'}], 'close_source_branch': false}")
+	review.Title = "Release/" + release
+	review.Description = "Production release for " + release
+	review.Source.Branch.Name = branch + release
+	review.Destination.Branch.Name = "master"
+
+	jsonData, err := json.Marshal(review)
+	if err != nil {
+		log.Fatalf("Error marshaling JSON: %v", err)
+	}
+
+	// Create request
+	req, err := http.NewRequest("POST", bitbucket.URL, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Fatalf("Error creating request: %v", err)
+	}
+
+	// Set headers
+	req.Header.Set("Authorization", "Basic "+bitbucket.Token)
+	req.Header.Set("Content-Type", "application/json")
+
+	// HTTP client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("Request failed: %v", err)
+	}
+	defer resp.Body.Close()
+
+	// Print result
+	fmt.Printf("Response status: %s\n", resp.Status)
 }
-*/

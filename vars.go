@@ -1,15 +1,11 @@
 package main
 
-// BitBucket builds a list of BitBucket tokens and api addresses
-type BitBucket struct {
+// Bitbucket builds a list of Bitbucket tokens and api addresses
+type Bitbucket struct {
 	URL       string `json:"url"`
 	UUID      string `json:"uuid"`
+	Token     string `json:"token"`
 	WordPress string `json:"wordpress"`
-	Reviewers struct {
-		One   string `json:"one"`
-		Two   string `json:"two"`
-		Three string `json:"three"`
-	}
 }
 
 // Jira builds a list of jira tokens and api addresses
@@ -32,6 +28,30 @@ type JQL struct {
 	} `json:"issues"`
 }
 
+// Struct for PR payload
+type PullRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+
+	Source struct {
+		Branch struct {
+			Name string `json:"name"`
+		} `json:"branch"`
+	} `json:"source"`
+
+	Destination struct {
+		Branch struct {
+			Name string `json:"name"`
+		} `json:"branch"`
+	} `json:"destination"`
+
+	Reviewers []struct {
+		UUID string `json:"uuid"`
+	} `json:"reviewers"`
+
+	CloseSourceBranch bool `json:"close_source_branch"`
+}
+
 type Color string
 
 const (
@@ -40,12 +60,10 @@ const (
 	Green  Color  = "\033[32m"
 	Yellow Color  = "\033[33m"
 	BGRed  Color  = "\033[41m"
-	bv     string = "1.0.0"
+	bv     string = "1.1.0"
 	branch string = "release/"
 	halt   string = "program halted "
 	config string = "/data/automation/jsons/"
-	repos  string = "/data/automation/repos/"
-	tokens string = "/data/automation/tokens/"
 )
 
 var (
@@ -55,6 +73,7 @@ var (
 	ticket    string
 	release   string
 	trout     []string
-	bitbucket BitBucket
-	jsons     = []string{repos + config + "bitbucket.json", repos + config + "jira.json", tokens + "tokens.json"}
+	bitbucket Bitbucket
+	review    PullRequest
+	jsons     = []string{config + "bitbucket.json", config + "jira.json", config + "pullrequest.json"}
 )

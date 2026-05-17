@@ -20,6 +20,8 @@ func serialize() {
 			json.Unmarshal(data, &bitbucket)
 		case 1:
 			json.Unmarshal(data, &jira)
+		case 2:
+			json.Unmarshal(data, &review)
 		}
 	}
 

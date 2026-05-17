@@ -1,0 +1,20 @@
+{
+  "title": "Add new API feature",
+  "description": "This PR adds a new API endpoint.",
+  "source": {
+    "branch": {
+      "name": "feature/new-api"
+    }
+  },
+  "destination": {
+    "branch": {
+      "name": "main"
+    }
+  },
+  "reviewers": [
+    { "uuid": "{reviewer-1}" },
+    { "uuid": "{reviewer-2}" },
+    { "uuid": "{reviewer-3}" }
+  ],
+  "close_source_branch": true
+}
