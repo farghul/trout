@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
-	"log"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"strings"
@@ -20,19 +20,55 @@ func serialize() {
 			json.Unmarshal(data, &bitbucket)
 		case 1:
 			json.Unmarshal(data, &jira)
-		case 2:
-			json.Unmarshal(data, &token)
 		}
 	}
 
-	search := api(jira.Testing)
+	search, err := api(jira.Testing)
+	inspect(err)
 	json.Unmarshal(search, &query)
 }
 
-// Grab ticket information from the Jira API
-func api(criteria string) []byte {
-	result := execute("-c", "curl", "--request", "GET", "--url", jira.URL+"search?jql="+criteria, "--header", "Authorization: Basic "+token.Jira, "--header", "Accept: application/json")
-	return result
+// Make the API call to Jira and return the response body
+func api(criteria string) ([]byte, error) {
+	baseURL := jira.URL + "search/jql?jql="
+
+	fullURL := baseURL + criteria
+
+	// Create request
+	req, err := http.NewRequest("GET", fullURL, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set headers
+	req.Header.Set("Authorization", "Basic "+jira.Token)
+	req.Header.Set("Accept", "application/json")
+
+	// Execute request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	// Read response
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+// Iterate through the Args array and assign plugin and ticket values
+func sift(box []string) {
+	for i := 0; i < len(box); i++ {
+		plugin = box[i]
+		i++
+		ticket = box[i]
+		require()
+		commit()
+	}
 }
 
 // Build the list of candidates for production release
@@ -57,37 +93,11 @@ func watchman(value string) time.Duration {
 	return waiting
 }
 
+// Alert the user if there are no tickets eligible for release
 func proceed(task []string) {
 	if len(task) == 0 {
 		alert("No tickets eligible for release -")
 	}
-}
-
-// Confirm the current working directory is correct
-func changedir() {
-	os.Chdir(bitbucket.WordPress)
-	var filePath string = "composer-prod.json"
-
-	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
-		alert("This is not the correct folder,")
-	}
-}
-
-// Run a terminal command using flags to customize the output
-func execute(variation, task string, args ...string) []byte {
-	osCmd := exec.Command(task, args...)
-	switch variation {
-	case "-c":
-		result, err := osCmd.Output()
-		inspect(err)
-		return result
-	case "-v":
-		osCmd.Stdout = os.Stdout
-		osCmd.Stderr = os.Stderr
-		err := osCmd.Run()
-		inspect(err)
-	}
-	return nil
 }
 
 // Check to see if the latest release branch exists locally
@@ -107,12 +117,4 @@ func edge() bool {
 		found = true
 	}
 	return found
-}
-
-// Check for errors, print the result if found
-func inspect(err error) {
-	if err != nil {
-		log.Println(err)
-		return
-	}
 }

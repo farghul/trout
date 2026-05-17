@@ -1,4 +1,6 @@
 {
+    "basic": "Default search options, e.g. project=<PROJECT>&type=<TYPE>",
     "testing": "JQL Jira API search string to return a list of tickets with status 'In Progress'",
-    "url": "Jira Issue API base URL, ex. https://jira.com/rest/api/latest/"
+    "url": "Jira Issue API base URL, e.g. https://jira.com/rest/api/latest/",
+    "token": "Email:<Jira API Token> combination with Base 64 Encoding for Basic Auth"
 }

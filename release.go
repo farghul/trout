@@ -3,56 +3,45 @@ package main
 // A sequential list of tasks run to complete the program
 func packagist() {
 	checkout()
-	// execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "update", "--no-install")
+	execute("env", []string{"COMPOSER=composer-prod.json", "composer", "update", "--no-install"}, ExecOptions{Stream: true})
 	sift(trout)
 	push()
 	// pullrequest()
 }
 
-// Switch to the desired branch, and pull any changes
+// Switch to the development branch, and pull any changes
 func prepare() {
-	execute("-v", "git", "checkout", "master")
-	execute("-v", "git", "pull")
+	execute("git", []string{"checkout", "development"}, ExecOptions{Stream: true})
+	execute("git", []string{"pull"}, ExecOptions{Stream: true})
 }
 
 // Create a release branch if necessary
 func checkout() {
 	if exists(branch, release) {
-		execute("-v", "git", "checkout", branch+release)
+		execute("git", []string{"checkout", branch + release}, ExecOptions{Stream: true})
 	} else {
-		execute("-v", "git", "checkout", "-b", branch+release)
+		execute("git", []string{"checkout", "-b", branch + release}, ExecOptions{Stream: true})
 	}
 }
 
-// Iterate through the Args array and assign plugin and ticket values
-func sift(box []string) {
-	for i := 0; i < len(box); i++ {
-		plugin = box[i]
-		i++
-		ticket = box[i]
-		require()
-		commit()
-	}
-}
-
-// Run the appropriate composer require command based on the flag value
+// Run the appropriate composer require command
 func require() {
 	if edge() {
-		execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "-W", "--no-install")
+		execute("composer", []string{"require", plugin, "-W", "--no-install"}, ExecOptions{Stream: true})
 	} else {
-		execute("-v", "env", "COMPOSER=composer-prod.json", "composer", "require", plugin, "--no-install")
+		execute("composer", []string{"require", plugin, "--no-install"}, ExecOptions{Stream: true})
 	}
 }
 
-// Add and commit the updated code
+// Add and commit the update
 func commit() {
-	execute("-v", "git", "add", ".")
-	execute("-v", "git", "commit", "-m", ticket, "-m", "Install "+plugin)
+	execute("git", []string{"add", "."}, ExecOptions{Stream: true})
+	execute("git", []string{"commit", "-m", ticket, "-m", "Install " + plugin}, ExecOptions{Stream: true})
 }
 
-// Push the modified content to the git repository
+// Push modified content to the git repository
 func push() {
-	execute("-v", "git", "push", "--set-upstream", "origin", branch+release)
+	execute("git", []string{"push"}, ExecOptions{Stream: true})
 }
 
 /* Needs more work

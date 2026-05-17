@@ -16,7 +16,7 @@ Trout searches the targeted Jira API for tickets marked as `In Progress` (aka Te
 
 ## 📂 Project Structure
 
-Inside of your Bowerbird project, you'll see the following folders and files:
+Inside of your Trout project, you'll see the following folders and files:
 
 ``` zsh
 .
@@ -24,13 +24,13 @@ Inside of your Bowerbird project, you'll see the following folders and files:
 │   ├── bitbucket.json
 │   ├── jira.json
 │   ├── tokens.json
+├── .gitignore
 ├── go.mod
-├── Jenkisfile
 ├── LICENSE.md
 ├── main.go
 ├── README.md
-├── release.go
-├── shared.go
+├── tasks.go
+├── tools.go
 ├── trout.webp
 └── vars.go
 ```
@@ -42,7 +42,7 @@ Before building the application, change the value of these constants to reflect 
 ``` go
 repos  string = "/data/automation/checkouts/"
 tokens string = "/data/automation/tokens/"
-config string = "desso-automation-conf/jsons/"
+config string = "/data/automation/jsons/"
 ```
 
 Then, from the root folder containing `main.go`, use the command that matches your environment:
